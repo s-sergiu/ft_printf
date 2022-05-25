@@ -6,7 +6,7 @@
 #    By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/25 16:42:02 by ssergiu           #+#    #+#              #
-#    Updated: 2022/05/17 13:27:27 by ssergiu          ###   ########.fr        #
+#    Updated: 2022/05/19 16:24:12 by ssergiu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,14 @@ FILES = ft_printf \
 		ft_putchar_fd \
 		ft_putstr_fd \
 		ft_putnbr_fd \
+		ft_itoa \
+		ft_split \
+		ft_strjoin \
+		ft_strtrim \
+		ft_substr \
+		ft_calloc \
+		ft_strlcpy \
+		ft_bzero \
 
 
 OBJS_DIR = ./

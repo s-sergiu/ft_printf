@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 10:15:22 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/05/20 17:31:05 by ssergiu          ###   ########.fr       */
+/*   Created: 2022/04/08 13:24:49 by ssergiu           #+#    #+#             */
+/*   Updated: 2022/05/10 14:23:36 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "ft_printf.h"
-#include "stdio.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_calloc(size_t count, size_t size)
 {
-	int x;
-	char str[] = "ssergiu";
+	void	*ptr;
 
-	x = 1234567888;
-	printf("\n");
-	ft_printf("%dthis is a decimal: %s %d ", x , x, str);
-	return (0);
+	ptr = malloc(count * size);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, size * count);
+	return (ptr);
 }

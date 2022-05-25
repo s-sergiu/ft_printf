@@ -6,130 +6,63 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 09:58:34 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/05/17 20:33:49 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/05/20 17:25:25 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "printf.h"
 #include "libft/libft.h"
 
-static int	pointerhex(unsigned long n, int i)
-{
-	int	temp;
-
-	if (n == 0)
-	{
-		ft_putnbr_fd(n, 1);
-		ft_putchar_fd('x', 1);
-	}
-	else
-	{
-		i = i + pointerhex(n / 16, 1);
-		temp = n % 16;
-		if (temp > 9)
-		{
-			temp += 87;
-			ft_putchar_fd(temp, 1);
-		}
-		else
-			ft_putnbr_fd(temp, 1);
-	}
-	return (i);
-}
-
-static int	nlen(int n)
-{
-	int	i;
-	int	sign;
-
-	i = 0;
-	sign = 0;
-	if (!n)
-		return (1);
-	if (n < 0)
-		sign = 1;
-	while (n)
-	{
-		n = n / 10;
-		i++;
-	}
-	return (i + sign);
-}
-
-static int	count_symbols(char const *format)
-{
-	int	count;
-
-	count = 0;
-	while (ft_strlen(format))
-	{
-		if (ft_strncmp(format, "%d", 2))
-				format++;
-		else
-		{
-			count++;
-			format = format + 2;
-		}
-	}
-	return (count);
-}
-
 int	ft_printf(const char *format, ...)
 {
-	int		i;
-	int		var_len;
+	char	**test;	
+	char	*trim;
+	char 	*join;
+	char	*itoa;
+	char	*temp;
 	va_list	ap;
-	va_list	ap_len;
-	va_list	ap_null;
+	int		i;
+	int		flag;
 	int		len;
-
-	va_start(ap, format);
+	
 	i = 0;
 	len = 0;
-	var_len = 0;
-	while (format[i])
+	flag = 0;
+	va_start(ap, format);
+	test = ft_split(format, '%');
+	
+	ft_putstr_fd(test[0], 1);
+	len += (int)(ft_strlen(test[0]));
+	while (test[++i])
 	{
-		if (!ft_strncmp(format + i, "%p", 2))
+		if (strncmp(test[i], "s", 1))
 		{
-			var_len += 2 + pointerhex(va_arg(ap, unsigned long), 0);
-			i = i + 2;
+			itoa = va_arg(ap, char *);
+			flag = 1;
 		}
-		if (!ft_strncmp(format + i, "%c", 2))
+		else 
+			itoa = ft_itoa(va_arg(ap, int));
+		trim = ft_strtrim(test[i], "dis");
+		join = ft_strjoin(itoa, trim);
+		temp = test[i];
+		test[i] = join;
+		len += (int)(ft_strlen(test[i]));
+		ft_putstr_fd(test[i], 1);
+		if (flag) 
 		{
-			var_len++;
-			ft_putchar_fd(va_arg(ap, int), 1);
-			i = i + 2;
+			free(temp);
+			free(trim);
+			free(test[i]);
 		}
-		if (!ft_strncmp(format + i, "%s", 2))
+		else 
 		{
-			va_copy(ap_len, ap);
-			va_copy(ap_null, ap);
-			if (va_arg(ap_null, char *) == NULL)
-			{
-				ft_putstr_fd("(null)", 1);
-				var_len += 6;
-			}
-			else
-			{
-				var_len += ft_strlen(va_arg(ap_len, char *));
-				ft_putstr_fd(va_arg(ap, char *), 1);
-			}
-			i = i + 2;
+			free(itoa);
+			free(temp);
+			free(trim);
+			free(test[i]);
 		}
-		if (!ft_strncmp(format + i, "%d", 2)
-			|| !ft_strncmp(format + i, "%i", 2))
-		{
-			va_copy(ap_len, ap);
-			var_len += nlen(va_arg(ap_len, int));
-			ft_putnbr_fd(va_arg(ap, int), 1);
-			i = i + 2;
-		}
-		if (format[i])
-			ft_putchar_fd(format[i], 1);
-		else
-			break ;
-		len++;
-		i++;
 	}
+	free(test[0]);
+	free(test);
 	va_end(ap);
-	return (len + var_len);
+	return (len);
 }

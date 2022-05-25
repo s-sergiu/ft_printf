@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 10:15:22 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/05/20 17:31:05 by ssergiu          ###   ########.fr       */
+/*   Created: 2022/03/26 21:01:07 by ssergiu           #+#    #+#             */
+/*   Updated: 2022/05/06 21:15:53 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "ft_printf.h"
-#include "stdio.h"
+#include "libft.h"
 
-int	main(void)
+void	ft_bzero(void *s, size_t n)
 {
-	int x;
-	char str[] = "ssergiu";
+	int	i;
 
-	x = 1234567888;
-	printf("\n");
-	ft_printf("%dthis is a decimal: %s %d ", x , x, str);
-	return (0);
+	i = -1;
+	while (++i < (int)n)
+		((char *)s)[i] = 0;
 }
