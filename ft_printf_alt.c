@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_printf_alt.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: ssergiu <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 10:15:22 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/05/17 19:58:57 by ssergiu          ###   ########.fr       */
+/*   Created: 2022/06/17 19:56:25 by ssergiu           #+#    #+#             */
+/*   Updated: 2022/06/17 20:12:25 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "ft_printf.h"
-#include "stdio.h"
 
-int	main(void)
+#include "printf.h"
+#include "libft/libft.h"
+
+int	ft_printf(const char *format, ...)
 {
-	int	x;
+	int	i;
 
-	x = 1234567888;
-	printf("%p", &x);
-	printf("\n");
-	ft_printf(" %p %p ", 0, 0);
-	return (0);
+	i = 0;
+	while(format[i++])
+	{
+		if (format[i] == '%')
+		{
+			while(!ft_isalpha(format[i++]))
+				write(1, &format[i], 1);
+		}
+	}
+	return (1);
 }
