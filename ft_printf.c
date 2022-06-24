@@ -6,29 +6,29 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 09:58:34 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/06/24 23:30:29 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/06/25 00:13:33 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "printf.h"
+#include "ft_printf.h"
 #include "libft/libft.h"
-#include "ft_itoa_long.c"
 
-static int  hex_len(unsigned int n)
+static int	hex_len(unsigned int n)
 {
-	int count;
-	
+	int	count;
+
 	count = 0;
 	while (n != 0)
 	{
-		count++;	
+		count++;
 		n = n / 16;
 	}
-	return(count);
+	return (count);
 }
 
-static void dectohex(unsigned int  n, char format)
+static void	dectohex(unsigned int n, char format)
 {
-	unsigned int temp;
+	unsigned int	temp;
+
 	if (n == 0)
 		;
 	else
@@ -47,12 +47,12 @@ static void dectohex(unsigned int  n, char format)
 	}
 }
 
-static int put_hex(unsigned int n, char format)
+static int	put_hex(unsigned int n, char format)
 {
 	if (n == 0)
 		return (write(1, "0", 1));
 	dectohex(n, format);
-	return (hex_len(n));	
+	return (hex_len(n));
 }
 
 static int	pointerhex(unsigned long n, int i)
@@ -85,7 +85,7 @@ int	ft_printf(const char *format, ...)
 	int		len;
 	va_list	ap;
 	va_list	ap_null;
-	va_list ap_snull;
+	va_list	ap_snull;
 	char	*temp;
 
 	i = 0;
@@ -99,9 +99,9 @@ int	ft_printf(const char *format, ...)
 			i = i + 2;
 		}
 		if (!ft_strncmp(format + i, "%x", 2)
-		|| !ft_strncmp(format + i, "%X", 2))
+			|| !ft_strncmp(format + i, "%X", 2))
 		{
-			len += put_hex(va_arg(ap, unsigned int), (char )(format[i+1]));
+			len += put_hex(va_arg(ap, unsigned int), (char )(format[i + 1]));
 			i = i + 2;
 		}
 		if (!ft_strncmp(format + i, "%p", 2))
@@ -109,7 +109,7 @@ int	ft_printf(const char *format, ...)
 			va_copy(ap_null, ap);
 			if (va_arg(ap_null, unsigned long) != 0)
 				len += 2 + pointerhex(va_arg(ap, unsigned long), 0);
-			else 
+			else
 			{
 				len += 3;
 				ft_putstr_fd("0x0", 1);
@@ -127,12 +127,12 @@ int	ft_printf(const char *format, ...)
 		{
 			va_copy(ap_snull, ap);
 			va_copy(ap_null, ap);
-			if (va_arg(ap_snull, char* ) != NULL)
+			if (va_arg(ap_snull, char *) != NULL)
 			{
 				len += ft_strlen(va_arg(ap_null, char *));
 				ft_putstr_fd(va_arg(ap, char *), 1);
 			}
-			else 
+			else
 			{
 				len += 6;
 				ft_putstr_fd("(null)", 1);
@@ -152,15 +152,15 @@ int	ft_printf(const char *format, ...)
 		}
 		if (!ft_strncmp(format + i, "%u", 2))
 		{
-			temp = ft_itoa_unsigned(va_arg(ap,unsigned int));
+			temp = ft_itoa_unsigned(va_arg(ap, unsigned int));
 			len += ft_strlen(temp);
 			ft_putstr_fd(temp, 1);
 			i = i + 2;
 			free(temp);
 		}
-		if(format[i] && format[i] != '%')
+		if (format[i] && format[i] != '%')
 		{
-			len +=  write(1, &format[i], 1);	
+			len += write(1, &format[i], 1);
 			i++;
 		}
 	}

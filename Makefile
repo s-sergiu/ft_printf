@@ -6,7 +6,7 @@
 #    By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/25 16:42:02 by ssergiu           #+#    #+#              #
-#    Updated: 2022/06/24 23:46:53 by ssergiu          ###   ########.fr        #
+#    Updated: 2022/06/25 00:02:04 by ssergiu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ FILES = ft_printf \
 		libft/ft_calloc \
 		libft/ft_strlcpy \
 		libft/ft_bzero \
-
+		ft_itoa_unsigned  
 
 OBJS_DIR = ./
 OBJS = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(FILES)))
