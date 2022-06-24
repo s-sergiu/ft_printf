@@ -6,7 +6,7 @@
 #    By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/25 16:42:02 by ssergiu           #+#    #+#              #
-#    Updated: 2022/05/17 13:27:27 by ssergiu          ###   ########.fr        #
+#    Updated: 2022/06/24 23:46:53 by ssergiu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,19 @@ AR = ar rcs
 RM = rm -f
 
 FILES = ft_printf \
-		ft_strlen \
-		ft_strncmp \
-		ft_putchar_fd \
-		ft_putstr_fd \
-		ft_putnbr_fd \
+		libft/ft_strlen \
+		libft/ft_strncmp \
+		libft/ft_putchar_fd \
+		libft/ft_putstr_fd \
+		libft/ft_putnbr_fd \
+		libft/ft_itoa \
+		libft/ft_split \
+		libft/ft_strjoin \
+		libft/ft_strtrim \
+		libft/ft_substr \
+		libft/ft_calloc \
+		libft/ft_strlcpy \
+		libft/ft_bzero \
 
 
 OBJS_DIR = ./

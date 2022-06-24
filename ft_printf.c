@@ -6,11 +6,54 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 09:58:34 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/06/01 19:08:53 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/06/24 23:30:29 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "printf.h"
 #include "libft/libft.h"
+#include "ft_itoa_long.c"
+
+static int  hex_len(unsigned int n)
+{
+	int count;
+	
+	count = 0;
+	while (n != 0)
+	{
+		count++;	
+		n = n / 16;
+	}
+	return(count);
+}
+
+static void dectohex(unsigned int  n, char format)
+{
+	unsigned int temp;
+	if (n == 0)
+		;
+	else
+	{
+		dectohex(n / 16, format);
+		temp = n % 16;
+		if (temp > 9)
+		{
+			temp += 87;
+			if (format == 'X')
+				temp -= 32;
+			ft_putchar_fd(temp, 1);
+		}
+		else
+			ft_putnbr_fd(temp, 1);
+	}
+}
+
+static int put_hex(unsigned int n, char format)
+{
+	if (n == 0)
+		return (write(1, "0", 1));
+	dectohex(n, format);
+	return (hex_len(n));	
+}
 
 static int	pointerhex(unsigned long n, int i)
 {
@@ -36,101 +79,91 @@ static int	pointerhex(unsigned long n, int i)
 	return (i);
 }
 
-static int	nlen(int n)
-{
-	int	i;
-	int	sign;
-
-	i = 0;
-	sign = 0;
-	if (!n)
-		return (1);
-	if (n < 0)
-		sign = 1;
-	while (n)
-	{
-		n = n / 10;
-		i++;
-	}
-	return (i + sign);
-}
-
-static int	count_symbols(char const *format)
-{
-	int	count;
-
-	count = 0;
-	while (ft_strlen(format))
-	{
-		if (ft_strncmp(format, "%d", 2))
-				format++;
-		else
-		{
-			count++;
-			format = format + 2;
-		}
-	}
-	return (count);
-}
-
 int	ft_printf(const char *format, ...)
 {
 	int		i;
-	char	*b;
-	int		var_len;
-	va_list	ap;
-	va_list	ap_len;
-	va_list	ap_null;
 	int		len;
+	va_list	ap;
+	va_list	ap_null;
+	va_list ap_snull;
+	char	*temp;
 
-	va_start(ap, format);
 	i = 0;
 	len = 0;
-	var_len = 0;
+	va_start(ap, format);
 	while (format[i])
 	{
+		if (!ft_strncmp(format + i, "%%", 2))
+		{
+			len += write(1, "%", 1);
+			i = i + 2;
+		}
+		if (!ft_strncmp(format + i, "%x", 2)
+		|| !ft_strncmp(format + i, "%X", 2))
+		{
+			len += put_hex(va_arg(ap, unsigned int), (char )(format[i+1]));
+			i = i + 2;
+		}
 		if (!ft_strncmp(format + i, "%p", 2))
 		{
-			var_len += 2 + pointerhex(va_arg(ap, unsigned long), 0);
+			va_copy(ap_null, ap);
+			if (va_arg(ap_null, unsigned long) != 0)
+				len += 2 + pointerhex(va_arg(ap, unsigned long), 0);
+			else 
+			{
+				len += 3;
+				ft_putstr_fd("0x0", 1);
+				va_arg(ap, unsigned long);
+			}
 			i = i + 2;
 		}
 		if (!ft_strncmp(format + i, "%c", 2))
 		{
-			var_len++;
 			ft_putchar_fd(va_arg(ap, int), 1);
+			len++;
 			i = i + 2;
 		}
 		if (!ft_strncmp(format + i, "%s", 2))
 		{
-			va_copy(ap_len, ap);
+			va_copy(ap_snull, ap);
 			va_copy(ap_null, ap);
-			if (va_arg(ap_null, char *) == NULL)
+			if (va_arg(ap_snull, char* ) != NULL)
 			{
-				ft_putstr_fd("(null)", 1);
-				var_len += 6;
-			}
-			else
-			{
-				var_len += ft_strlen(va_arg(ap_len, char *));
+				len += ft_strlen(va_arg(ap_null, char *));
 				ft_putstr_fd(va_arg(ap, char *), 1);
+			}
+			else 
+			{
+				len += 6;
+				ft_putstr_fd("(null)", 1);
+				va_arg(ap, char *);
 			}
 			i = i + 2;
 		}
 		if (!ft_strncmp(format + i, "%d", 2)
 			|| !ft_strncmp(format + i, "%i", 2))
 		{
-			va_copy(ap_len, ap);
-			var_len += nlen(va_arg(ap_len, int));
-			ft_putnbr_fd(va_arg(ap, int), 1);
+			va_copy(ap_null, ap);
+			temp = ft_itoa(va_arg(ap, int));
+			len += ft_strlen(temp);
+			ft_putstr_fd(temp, 1);
 			i = i + 2;
+			free(temp);
 		}
-		if (format[i])
-			ft_putchar_fd(format[i], 1);
-		else
-			break ;
-		len++;
-		i++;
+		if (!ft_strncmp(format + i, "%u", 2))
+		{
+			temp = ft_itoa_unsigned(va_arg(ap,unsigned int));
+			len += ft_strlen(temp);
+			ft_putstr_fd(temp, 1);
+			i = i + 2;
+			free(temp);
+		}
+		if(format[i] && format[i] != '%')
+		{
+			len +=  write(1, &format[i], 1);	
+			i++;
+		}
 	}
 	va_end(ap);
-	return (len + var_len);
+	return (len);
 }

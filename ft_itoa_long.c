@@ -1,44 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_itoa_long.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 15:43:19 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/06/24 06:56:24 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/06/24 23:44:12 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
+#include "printf.h"
 
-static int	nlen(int n)
+static int	nlen(unsigned int n)
 {
 	int	i;
-	int	sign;
 
 	i = 0;
-	sign = 0;
 	if (!n)
 		return (1);
-	if (n < 0)
-		sign = 1;
+	if (n == 0)
+		return (1);
 	while (n)
 	{
 		n = n / 10;
 		i++;
 	}
-	return (i + sign);
+	return (i);
 }
 
-static void	logic(int n, char *result, int len)
+static void	logic(unsigned int n, char *result, int len)
 {
 	char	temp;
 
-	if (n < 0)
-	{
-		n = n * -1;
-		result[0] = '-';
-	}
+	if (n == 0)
+		result[0] = '0';
 	while (n > 0)
 	{
 		temp = (char )(n % 10) + '0';
@@ -47,7 +42,7 @@ static void	logic(int n, char *result, int len)
 	}
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa_unsigned(unsigned int n)
 {
 	int		len;
 	char	*result;
@@ -58,11 +53,11 @@ char	*ft_itoa(int n)
 		return (NULL);
 	if (n == 0)
 		result[0] = '0';
-	else if (n == -2147483648)
+	else if (n == 4294967295)
 	{
-		n = n + 1;
+		n = n - 1;
 		logic(n, result, len);
-		result[len - 1] = '8';
+		result[len - 1] = '5';
 	}
 	else if (n < 0)
 		logic(n, result, len);
