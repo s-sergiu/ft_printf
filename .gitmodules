@@ -1,3 +1,0 @@
-[submodule "lft"]
-	path = libs
-	url = git@github.com:s-sergiu/Libft
