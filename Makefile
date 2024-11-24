@@ -6,7 +6,7 @@ SHELL=/bin/sh
 VPATH=src
 
 # flags
-CFLAGS = -Wall -Wextra -Werror -Iinclude
+CFLAGS = -Wall -Wextra -Werror -Iinclude -Ilibs/Libft/include
 ARFLAGS=rcs
 
 # object files
