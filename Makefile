@@ -1,50 +1,25 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/03/25 16:42:02 by ssergiu           #+#    #+#              #
-#    Updated: 2022/06/25 08:09:54 by ssergiu          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
+# binary name
 NAME = libftprintf.a
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-AR = ar rcs
-RM = rm -f
+# variables
+SHELL=/bin/sh
+VPATH=src
 
-FILES = ft_printf \
-		libft/ft_strlen \
-		libft/ft_strncmp \
-		libft/ft_putchar_fd \
-		libft/ft_putstr_fd \
-		libft/ft_putnbr_fd \
-		libft/ft_itoa \
-		libft/ft_split \
-		libft/ft_strjoin \
-		libft/ft_strtrim \
-		libft/ft_substr \
-		libft/ft_calloc \
-		libft/ft_strlcpy \
-		libft/ft_bzero \
-		ft_itoa_unsigned \
-		utils/printf_utils \
-		utils/check_utils
+# flags
+CFLAGS = -Wall -Wextra -Werror -Iinclude
+ARFLAGS=rcs
 
-OBJS_DIR = ./
-OBJS = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(FILES)))
+# object files
+OBJ = 	ft_printf.o \
+		ft_itoa_unsigned.o \
+		utils/printf_utils.o \
+		utils/check_utils.o
 
+# rules
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(AR) $(NAME) $^
-
-%.o:%.c
-	$(CC) $(CFLAGS) -c -o $@ $^
+$(NAME): $(OBJ)
+	$(AR) $(ARFLAGS) $(NAME) $^
 
 clean:
 	$(RM) $(OBJS) $(OBJS_B)
@@ -54,4 +29,5 @@ fclean: clean
 
 re: clean all
 
+# special built-in targets
 .PHONY: bonus all clean fclean re

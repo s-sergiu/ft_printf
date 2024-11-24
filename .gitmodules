@@ -1,0 +1,5 @@
+[submodule "libs/Libft"]
+	path = libs/Libft
+	url = git@github.com:s-sergiu/Libft
+	branch = master
+	update = checkout
