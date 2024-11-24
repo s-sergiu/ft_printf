@@ -3,7 +3,7 @@
 
 # include <stdarg.h>
 # include <stdlib.h>
-# include "../libs/Libft/libft.h"
+# include "../libs/Libft/include/libft.h"
 
 int		print_p(unsigned long n);
 int		print_string(char *str);
