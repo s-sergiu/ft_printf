@@ -30,4 +30,4 @@ fclean: clean
 re: clean all
 
 # special built-in targets
-.PHONY: bonus all clean fclean re
+.PHONY: all clean fclean re
