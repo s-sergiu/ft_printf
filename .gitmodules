@@ -1,4 +1,4 @@
-[submodule "libs/Libft"]
+[submodule "lft"]
 	path = libs/Libft
 	url = git@github.com:s-sergiu/Libft
 	branch = master
