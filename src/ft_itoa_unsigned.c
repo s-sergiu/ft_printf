@@ -6,7 +6,7 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 15:43:19 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/06/25 00:06:35 by ssergiu          ###   ########.fr       */
+/*   Updated: 2024/11/24 16:14:29 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -59,8 +59,6 @@ char	*ft_itoa_unsigned(unsigned int n)
 		logic(n, result, len);
 		result[len - 1] = '5';
 	}
-	else if (n < 0)
-		logic(n, result, len);
 	else
 		logic(n, result, len);
 	result[len] = '\0';

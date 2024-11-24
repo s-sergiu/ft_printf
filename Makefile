@@ -12,8 +12,8 @@ ARFLAGS=rcs
 # object files
 OBJ = 	ft_printf.o \
 		ft_itoa_unsigned.o \
-		utils/printf_utils.o \
-		utils/check_utils.o
+		printf_utils.o \
+		check_utils.o
 
 # rules
 all: $(NAME)
@@ -22,7 +22,7 @@ $(NAME): $(OBJ)
 	$(AR) $(ARFLAGS) $(NAME) $^
 
 clean:
-	$(RM) $(OBJS) $(OBJS_B)
+	$(RM) $(OBJ) 
 
 fclean: clean
 	$(RM) $(NAME)
